@@ -2,6 +2,7 @@ package org.launchcode.techjobs.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -11,7 +12,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -60,16 +61,24 @@ public class TechJobs {
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
 
-                if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                System.out.println("\n");
+
+                if (searchField.equals("all") && searchTerm.equals("")) {
+
+                    printJobs(JobData.findAll());
+
+                    //System.out.println("Search all fields not yet implemented.");
+
                 } else {
+
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+
                 }
             }
         }
     }
 
-    // ﻿Returns the key of the selected item from the choices Dictionary
+    // Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
         Integer choiceIdx;
@@ -103,7 +112,7 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
@@ -111,6 +120,38 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        if (someJobs.size() == 0) {
+
+            System.out.println("No results found.");
+
+        } else {
+
+            for (int i = 0; i < someJobs.size(); i++) {
+
+                System.out.println("*****");
+
+                for (Map.Entry<String, String> entry : someJobs.get(i).entrySet()) {
+
+                    String key = entry.getKey();
+
+                    Object value = entry.getValue();
+
+                    System.out.println(key + ": " + value);
+
+                }
+
+                System.out.println("*****\n");
+            }
+
+        }
+
     }
+
 }
+
+
+
+
+
+        //System.out.println("printJobs is not implemented yet");
+
